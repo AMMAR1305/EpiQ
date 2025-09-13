@@ -234,16 +234,16 @@ function Home() {
       zIndex: 1
     }}
   >
-   {/* \\ <h1 style={{ fontSize: "4rem", textShadow: "2px 2px 10px black" }}>Explore Tamil Nadu</h1>
-    <p style={{ fontSize: "1.5rem", textShadow: "2px 2px 8px black" }}>The Jewel of South India – Temples, Culture, and Nature</p> */}
-    {/* <Link to="/destinations" style={{
+    <h1 style={{ fontSize: "4rem", textShadow: "2px 2px 10px black" }}>Explore Tamil Nadu</h1>
+    <p style={{ fontSize: "1.5rem", textShadow: "2px 2px 8px black" }}>The Jewel of South India – Temples, Culture, and Nature</p> 
+    <Link to="/destinations" style={{
       padding: "1rem 2rem",
       background: "linear-gradient(90deg, #FFD700, #FFC107)",
       borderRadius: "0.5rem",
       fontWeight: "bold",
       textDecoration: "none",
       color: "#000"
-    }}>Explore Now</Link> */}
+    }}>Explore Now</Link> 
   </div>
 </div>
 

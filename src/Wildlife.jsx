@@ -1,111 +1,111 @@
-function Tours() {
-  const tours = [
+import mudhumalai from './assets/mudhumalai.jpg';
+import anamalai from './assets/anamalai.webp';
+import vedanthangal from './assets/vedanthangal.avif';
+import guindy from './assets/guindy.jpg';
+import kmtr from './assets/kmtr.jpg';
+import vallanadu from './assets/vallanadu.webp';
+function Wildlife() {
+  const wildlifeSpots = [
     { 
-      title: "Temple Trail", 
-      days: "3 Days", 
-      price: "₹4,999", 
-      desc: "Explore Madurai, Rameswaram, and Kanchipuram temples, experiencing rich heritage and spirituality.",
-      img: "/assets/temple-trail.jpg"
+      title: "Mudumalai Wildlife Sanctuary", 
+      location: "Nilgiri Hills", 
+      desc: "A paradise for nature lovers, home to elephants, tigers, leopards, and over 250 species of birds.",
+      img: mudhumalai  
     },
     { 
-      title: "Hill Station Escape", 
-      days: "4 Days", 
-      price: "₹7,499", 
-      desc: "Relax in Ooty and Kodaikanal surrounded by lush green landscapes, lakes, and waterfalls.",
-      img: "/assets/hill-escape.jpg"
+      title: "Anamalai Tiger Reserve", 
+      location: "Coimbatore District", 
+      desc: "Known for its rich biodiversity with lion-tailed macaques, gaur, and endangered tigers.",
+      img: anamalai
     },
     { 
-      title: "Beach & Heritage", 
-      days: "2 Days", 
-      price: "₹3,999", 
-      desc: "Enjoy Mahabalipuram rock temples and the beauty of Marina Beach, perfect for a short getaway.",
-      img: "/assets/beach-heritage.jpg"
+      title: "Vedanthangal Bird Sanctuary", 
+      location: "Kanchipuram", 
+      desc: "One of the oldest bird sanctuaries in India, attracting migratory birds like pelicans and storks.",
+      img: vedanthangal
     },
     { 
-      title: "Wildlife Safari", 
-      days: "3 Days", 
-      price: "₹5,499", 
-      desc: "Visit Mudumalai and Anamalai wildlife sanctuaries for a thrilling experience with nature.",
-      img: "/assets/wildlife-safari.jpg"
+      title: "Guindy National Park", 
+      location: "Chennai", 
+      desc: "An urban green haven with spotted deer, blackbucks, and a variety of bird species.",
+      img: guindy
     },
     { 
-      title: "Spiritual Sojourn", 
-      days: "5 Days", 
-      price: "₹8,999", 
-      desc: "A spiritual journey covering Chidambaram, Thiruvannamalai, and Srirangam temples.",
-      img: "/assets/spiritual-sojourn.jpg"
+      title: "Kalakkad Mundanthurai Tiger Reserve", 
+      location: "Tirunelveli", 
+      desc: "Dense forests with elephants, leopards, and rare bird species in the Western Ghats.",
+      img: kmtr
     },
     { 
-      title: "Cultural Discovery", 
-      days: "3 Days", 
-      price: "₹6,499", 
-      desc: "Immerse in Tamil culture visiting local villages, arts, traditional cuisine, and festivals.",
-      img: "/assets/cultural-discovery.jpg"
+      title: "Vallanadu Blackbuck Sanctuary", 
+      location: "Thoothukudi", 
+      desc: "Dedicated to the protection of the elegant blackbuck antelope in a serene environment.",
+      img: vallanadu
     },
   ];
 
   return (
-    <div className="tours-container">
+    <div className="wildlife-container">
       <style>{`
-        .tours-container {
+        .wildlife-container {
           padding: 3rem 1.5rem;
-          background-color: #f9fafb;
+          background-color: #f0fdf4;
           font-family: 'Arial', sans-serif;
         }
-        .tours-container h2 {
+        .wildlife-container h2 {
           text-align: center;
           font-size: 2.75rem;
           font-weight: 700;
-          color: #1f2937;
+          color: #14532d;
           margin-bottom: 3rem;
         }
-        .tours-grid {
+        .wildlife-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 2rem;
         }
         @media (min-width: 768px) {
-          .tours-grid {
+          .wildlife-grid {
             grid-template-columns: repeat(3, 1fr);
           }
         }
-        .tour-card {
+        .wildlife-card {
           background-color: #ffffff;
           border-radius: 1rem;
           box-shadow: 0 10px 25px rgba(0,0,0,0.1);
           overflow: hidden;
           transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
-        .tour-card:hover {
+        .wildlife-card:hover {
           transform: translateY(-8px);
           box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
-        .tour-card img {
+        .wildlife-card img {
           width: 100%;
           height: 180px;
           object-fit: cover;
         }
-        .tour-card .card-content {
+        .wildlife-card .card-content {
           padding: 1.5rem;
         }
-        .tour-card h3 {
+        .wildlife-card h3 {
           font-size: 1.5rem;
           font-weight: 700;
-          color: #111827;
+          color: #064e3b;
+          margin-bottom: 0.5rem;
+        }
+        .wildlife-card .location {
+          font-size: 1rem;
+          color: #059669;
+          font-weight: 600;
           margin-bottom: 0.75rem;
         }
-        .tour-card .tour-info {
+        .wildlife-card p {
           font-size: 1rem;
-          color: #4b5563;
-          font-weight: 500;
-          margin-bottom: 0.75rem;
-        }
-        .tour-card p {
-          font-size: 1rem;
-          color: #4b5563;
+          color: #374151;
           line-height: 1.5;
         }
-        .tour-card button {
+        .wildlife-card button {
           display: inline-block;
           margin-top: 1rem;
           padding: 0.6rem 1.5rem;
@@ -117,22 +117,22 @@ function Tours() {
           font-weight: 600;
           transition: background-color 0.3s ease;
         }
-        .tour-card button:hover {
+        .wildlife-card button:hover {
           background-color: #065f46;
         }
       `}</style>
 
-      <h2>Exciting Tour Packages</h2>
+      <h2>Wildlife of Tamil Nadu</h2>
 
-      <div className="tours-grid">
-        {tours.map((tour, i) => (
-          <div key={i} className="tour-card">
-            <img src={tour.img} alt={tour.title} />
+      <div className="wildlife-grid">
+        {wildlifeSpots.map((spot, i) => (
+          <div key={i} className="wildlife-card">
+            <img src={spot.img} alt={spot.title} />
             <div className="card-content">
-              <h3>{tour.title}</h3>
-              <div className="tour-info">{tour.days} | {tour.price}</div>
-              <p>{tour.desc}</p>
-              <button>View Details</button>
+              <h3>{spot.title}</h3>
+              <div className="location">{spot.location}</div>
+              <p>{spot.desc}</p>
+              <button>Explore More</button>
             </div>
           </div>
         ))}
@@ -141,4 +141,4 @@ function Tours() {
   );
 }
 
-export default Tours;
+export default Wildlife;
