@@ -7,6 +7,9 @@ import Destinations from "./Destinations";
 import Tours from "./Tours";
 import Culture from "./Culture";
 import Wildlife from "./Wildlife";
+import Cuisine from "./Cuisine";
+import Resorts from "./Resorts";
+import Festivals from "./Festivals";
 import About from "./About";
 import Contact from "./Contact";
 import TourismManagementSystem from "./TourismManagementSystem";
@@ -51,6 +54,9 @@ function App() {
           <Route path="/tours" element={<Tours />} />
           <Route path="/culture" element={<Culture />} />
           <Route path="/wildlife" element={<Wildlife />} />
+          <Route path="/cuisine" element={<Cuisine />} />
+          <Route path="/resorts" element={<Resorts />} />
+          <Route path="/festivals" element={<Festivals />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/TourismManagementSystem" element={< TourismManagementSystem/>} />
