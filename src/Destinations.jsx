@@ -1,30 +1,41 @@
-import madurai from './assets/madurai.jpg';
-import ooty from './assets/ooty.jpg';
-import mahabalipuram from './assets/mahabalipuram.jpg';
-import manimuthar from './assets/manimuthar.jpg';
-import rameswarm from './assets/rameswarm.jpeg';
-import chennai from './assets/chennai.jpg';
-import kodaikanal from './assets/kodaikanal.jpeg';
-import tiruchirappalli from './assets/tiruchirapalli.jpg';
-import vellore from './assets/vellore.jpg';
-import thanjavur from './assets/thanjavur.jpg';
-import coimbatore from './assets/coimbatore.jpg';
-import thirunelveli from './assets/thirunelveli.jpg';
+import React, { useState } from "react";
+import madurai from "./assets/madurai.jpg";
+import ooty from "./assets/ooty.jpg";
+import mahabalipuram from "./assets/mahabalipuram.jpg";
+import manimuthar from "./assets/manimuthar.jpg";
+import rameswarm from "./assets/rameswarm.jpeg";
+import chennai from "./assets/chennai.jpg";
+import kodaikanal from "./assets/kodaikanal.jpeg";
+import tiruchirappalli from "./assets/tiruchirapalli.jpg";
+import vellore from "./assets/vellore.jpg";
+import thanjavur from "./assets/thanjavur.jpg";
+import coimbatore from "./assets/coimbatore.jpg";
+import thirunelveli from "./assets/thirunelveli.jpg";
+
 function Destinations() {
   const places = [
-    { name: "Chennai", desc: "The capital city with Marina Beach & Fort St. George.", img: chennai },
-    { name: "Madurai", desc: "Historic city famous for Meenakshi Amman Temple.", img: madurai },
-    { name: "Kodaikanal", desc: "Hill station with lakes, forests, and waterfalls.", img: kodaikanal },
-    { name: "Ooty", desc: "The Queen of Hill Stations in the Nilgiris.", img: ooty },
-    { name: "Mahabalipuram", desc: "Heritage site with rock-cut temples & sculptures.", img: mahabalipuram },
-    { name: "Rameswaram", desc: "Sacred island with Ramanathaswamy Temple.", img: rameswarm },
-    { name: "Tiruchirappalli", desc: "Famous for the Rockfort Temple and Srirangam Temple.", img: tiruchirappalli },
-    { name: "Vellore", desc: "Known for Vellore Fort and educational institutions.", img: vellore },
-    { name: "Thanjavur", desc: "Rich in cultural heritage, known for Brihadeeswarar Temple.", img: thanjavur },
-    { name: "Coimbatore", desc: "Industrial hub, near Western Ghats with pleasant climate.", img: coimbatore },
-    { name: "Courtallam", desc: "Famous for waterfalls, scenic beauty & serene atmosphere.", img: manimuthar},
-    { name: "Tirunelveli", desc: "Famous for waterfalls, scenic beauty & serene atmosphere.", img: thirunelveli }
+    { name: "Chennai", desc: "The capital city with Marina Beach & Fort St. George.", img: chennai, category: "City" },
+    { name: "Madurai", desc: "Historic city famous for Meenakshi Amman Temple.", img: madurai, category: "Temple" },
+    { name: "Kodaikanal", desc: "Hill station with lakes, forests, and waterfalls.", img: kodaikanal, category: "Hill Station" },
+    { name: "Ooty", desc: "The Queen of Hill Stations in the Nilgiris.", img: ooty, category: "Hill Station" },
+    { name: "Mahabalipuram", desc: "Heritage site with rock-cut temples & sculptures.", img: mahabalipuram, category: "Heritage" },
+    { name: "Rameswaram", desc: "Sacred island with Ramanathaswamy Temple.", img: rameswarm, category: "Temple" },
+    { name: "Tiruchirappalli", desc: "Famous for the Rockfort Temple and Srirangam Temple.", img: tiruchirappalli, category: "Temple" },
+    { name: "Vellore", desc: "Known for Vellore Fort and educational institutions.", img: vellore, category: "Heritage" },
+    { name: "Thanjavur", desc: "Rich in cultural heritage, known for Brihadeeswarar Temple.", img: thanjavur, category: "Heritage" },
+    { name: "Coimbatore", desc: "Industrial hub, near Western Ghats with pleasant climate.", img: coimbatore, category: "City" },
+    { name: "Courtallam", desc: "Famous for waterfalls, scenic beauty & serene atmosphere.", img: manimuthar, category: "Waterfalls" },
+    { name: "Tirunelveli", desc: "Famous for waterfalls, scenic beauty & serene atmosphere.", img: thirunelveli, category: "Waterfalls" }
   ];
+
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("All");
+
+  const filteredPlaces = places.filter((place) => {
+    const matchesSearch = place.name.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = filter === "All" || place.category === filter;
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div className="destinations-container">
@@ -40,6 +51,19 @@ function Destinations() {
           font-weight: 700;
           color: #1f2937;
           margin-bottom: 2rem;
+        }
+        .search-filter {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+        }
+        .search-filter input, .search-filter select {
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          font-size: 1rem;
         }
         .destinations-grid {
           display: grid;
@@ -85,8 +109,27 @@ function Destinations() {
 
       <h2>Top Destinations of Tamil Nadu</h2>
 
+      {/* Search & Filter Controls */}
+      <div className="search-filter">
+        <input
+          type="text"
+          placeholder="Search destinations..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="All">All Categories</option>
+          <option value="City">City</option>
+          <option value="Temple">Temple</option>
+          <option value="Hill Station">Hill Station</option>
+          <option value="Heritage">Heritage</option>
+          <option value="Waterfalls">Waterfalls</option>
+        </select>
+      </div>
+
+      {/* Destination Cards */}
       <div className="destinations-grid">
-        {places.map((place, index) => (
+        {filteredPlaces.map((place, index) => (
           <div key={index} className="destination-card">
             <img src={place.img} alt={place.name} />
             <div className="card-content">

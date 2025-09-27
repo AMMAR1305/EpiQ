@@ -1,65 +1,146 @@
 import img from './assets/img.webp';
+
 function About() {
   return (
-    <div className="about-container">
+    <section className="about-section">
       <style>{`
-        .about-container {
+        .about-section {
           padding: 4rem 2rem;
-          max-width: 1000px;
-          margin: 2rem auto;
+          max-width: 1200px;
+          margin: 3rem auto;
           font-family: 'Poppins', sans-serif;
-          background-color: #ffffff;
+          color: #1f2937;
+        }
+
+        .about-header {
+          text-align: center;
+          margin-bottom: 3rem;
+          animation: fadeInDown 1s ease;
+        }
+
+        .about-header h2 {
+          font-size: 3rem;
+          font-weight: 800;
+          color: #0056b3;
+          margin-bottom: 0.8rem;
+        }
+
+        .about-header p {
+          font-size: 1.2rem;
+          color: #4b5563;
+          max-width: 700px;
+          margin: 0 auto;
+          line-height: 1.7;
+        }
+
+        .about-content {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+          align-items: center;
+        }
+
+        @media (min-width: 992px) {
+          .about-content {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        .about-image img {
+          width: 100%;
+          max-height: 450px;
           border-radius: 1rem;
-          box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+          object-fit: cover;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .about-image img:hover {
+          transform: scale(1.03);
+          box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        }
+
+        .about-text p {
+          font-size: 1.15rem;
+          margin-bottom: 1.5rem;
+          text-align: justify;
           line-height: 1.8;
         }
-        .about-container h2 {
+
+        .about-text strong {
+          color: #0056b3;
+        }
+
+        .cta-box {
+          margin-top: 2rem;
           text-align: center;
-          font-size: 3rem;
-          font-weight: 900;
-          color: #0056b3;
-          margin-bottom: 2rem;
         }
-        .about-container img {
-          display: block;
-          width: 100%;
-          max-height: 420px;
-          object-fit: cover;
-          border-radius: 1rem;
-          margin-bottom: 2.5rem;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+        .cta-btn {
+          background: #0056b3;
+          color: #fff;
+          font-size: 1.1rem;
+          font-weight: 600;
+          padding: 0.9rem 2rem;
+          border: none;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          transition: background 0.3s ease, transform 0.2s ease;
         }
-        .about-container p {
-          font-size: 1.2rem;
-          color: #374151;
-          margin-bottom: 1.8rem;
-          text-align: justify;
+
+        .cta-btn:hover {
+          background: #004494;
+          transform: translateY(-3px);
         }
-        .about-container strong {
-          color: #0056b3;
+
+        /* Simple animations */
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
-      <h2>About Tamil Nadu Tourism</h2>
+      <div className="about-header">
+        <h2>About Tamil Nadu Tourism</h2>
+        <p>
+          Discover the timeless charm of Tamil Nadu – where heritage, spirituality,
+          and nature come together to create unforgettable experiences.
+        </p>
+      </div>
 
-      <img src={img} alt="Tamil Nadu Overview" />
+      <div className="about-content">
+        <div className="about-image">
+          <img src={img} alt="Tamil Nadu Overview" />
+        </div>
+        <div className="about-text">
+          <p>
+            <strong>Tamil Nadu Tourism</strong> celebrates the breathtaking beauty
+            and cultural richness of one of India’s most vibrant states. From the
+            awe-inspiring temples of <strong>Madurai</strong> and
+            <strong> Thanjavur</strong>, to the serene hill stations of
+            <strong> Ooty</strong> and <strong>Kodaikanal</strong>, every corner
+            tells a story worth experiencing.
+          </p>
 
-      <p>
-        <strong>Tamil Nadu Tourism</strong> is dedicated to celebrating the timeless beauty, rich traditions, and cultural legacy of one of India’s most vibrant states. 
-        From the awe-inspiring temples of <strong>Madurai</strong> and <strong>Thanjavur</strong>, to the misty hill stations of <strong>Ooty</strong> and <strong>Kodaikanal</strong>, 
-        and the coastal wonders of <strong>Mahabalipuram</strong> and <strong>Rameswaram</strong>, every corner of Tamil Nadu tells a story that captivates travelers.
-      </p>
+          <p>
+            Our mission is to deliver <strong>authentic, safe, and memorable
+            experiences</strong>. We promote <strong>sustainable tourism</strong>,
+            empowering local communities while preserving our heritage for future
+            generations.
+          </p>
 
-      <p>
-        Our mission is to deliver <strong>authentic, safe, and memorable experiences</strong> for every visitor. We believe in promoting 
-        <strong> sustainable tourism</strong>—one that not only showcases the natural and cultural wealth of Tamil Nadu but also empowers local communities and preserves our heritage for generations to come.
-      </p>
+          <p>
+            Whether you’re a history lover, a spiritual seeker, or a nature
+            enthusiast, Tamil Nadu offers a <strong>journey of discovery</strong>
+            like no other. Come explore the <strong>Jewel of South India</strong>.
+          </p>
 
-      <p>
-        Whether you’re a history enthusiast, a nature lover, or someone seeking spiritual serenity, 
-        Tamil Nadu offers an unforgettable journey of discovery. Let us be your trusted guide in exploring the <strong>Jewel of South India</strong>.
-      </p>
-    </div>
+          <div className="cta-box">
+            <button className="cta-btn">Plan Your Trip</button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -281,6 +281,7 @@ function Home() {
           Witness vibrant festivals, experience authentic Tamil cuisine, and enjoy the warm hospitality.
         </p>
       </section>
+     
 
       {/* Testimonials */}
       <Testimonials />

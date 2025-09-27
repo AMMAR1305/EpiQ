@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiX, FiSearch, FiUser } from "react-icons/fi";
+import Logo from "./assets/Logo.png";
+
+// flint update need to delete
+
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -67,7 +71,7 @@ function Navbar() {
           font-size: 1.8rem;
         }
 
-        .logo img {
+        .Logo img {
           height: 40px;
           width: 40px;
           border-radius: 50%;
@@ -230,8 +234,8 @@ function Navbar() {
         }
       `}</style>
 
-      <div className="logo">
-        <img src="/assets/logo.png" alt="Logo" />
+      <div className="Logo">
+        <img src="./assets/Logo.png"alt="Logo" />
       </div>
 
       <ul className="hidden md:flex">
