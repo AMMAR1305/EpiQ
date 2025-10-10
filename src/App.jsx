@@ -13,7 +13,18 @@ import Festivals from "./Festivals";
 import About from "./About";
 import Contact from "./Contact";
 import TourismManagementSystem from "./TourismManagementSystem";
-
+import Madurai from "./pages/Madurai";
+import OotyPage from "./pages/ooty";
+import Mahabalipuram from "./pages/Mahabalipuram";
+import Manimuthar from "./pages/manimuthar";
+import Rameswaram from "./pages/rameswaram";
+import Chennai from "./pages/chennai";
+import Kodaikanal from "./pages/kodaikanal";
+import Tiruchirappalli from "./pages/tiruchirappalli";
+import Vellore from "./pages/vellore";
+import Thanjavur from "./pages/thanjavur";
+import Coimbatore from "./pages/coimbatore";
+import Thirunelveli from "./pages/thirunelveli";
 function App() {
   return (
     <Router>
@@ -59,7 +70,19 @@ function App() {
           <Route path="/festivals" element={<Festivals />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/TourismManagementSystem" element={< TourismManagementSystem/>} />
+          <Route path="/madurai" element={<Madurai />} />
+          <Route path="/ooty" element={<OotyPage />} />
+          <Route path="/mahabalipuram" element={<Mahabalipuram />} />
+          <Route path="/manimuthar" element={<Manimuthar />} />
+          <Route path="/rameswaram" element={<Rameswaram />} />
+          <Route path="/chennai" element={<Chennai />} />
+          <Route path="/kodaikanal" element={<Kodaikanal />} />
+          <Route path="/tiruchirappalli" element={<Tiruchirappalli />} />
+          <Route path="/vellore" element={<Vellore />} />
+          <Route path="/thanjavur" element={<Thanjavur />} />
+          <Route path="/coimbatore" element={<Coimbatore />} />
+          <Route path="/thirunelveli" element={<Thirunelveli />} />
+\          <Route path="/TourismManagementSystem" element={< TourismManagementSystem/>} />
           <Route path="*" element={<div className="not-found">404 - Page Not Found</div>} />
         </Routes>
       </main>
