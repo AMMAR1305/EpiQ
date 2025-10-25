@@ -8,12 +8,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// ---------- Configure MongoDB ----------
-// Option A: Local MongoDB (run mongod locally)
-// const MONGO_URI = "mongodb://127.0.0.1:27017/travelDB";
-
-// Option B: MongoDB Atlas (paste your connection string)
-// const MONGO_URI = "mongodb+srv://<user>:<password>@cluster0.mongodb.net/travelDB?retryWrites=true&w=majority";
 
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/travelDB";
 
