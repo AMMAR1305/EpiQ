@@ -8,6 +8,7 @@ import ss from './assets/ss.jpeg';
 
 function Tours() {
   const [selectedTour, setSelectedTour] = useState(null);
+  const [bookingTour, setBookingTour] = useState(null);
 
   const tours = [
     { 
@@ -60,9 +61,43 @@ function Tours() {
     },
   ];
 
+  const handleBooking = async (tour, customer) => {
+    try {
+      const payload = {
+        name: customer?.name || "Guest",
+        email: customer?.email || "",
+        phone: customer?.phone || "",
+        tourPackage: tour.title,
+        visitDate: customer?.visitDate || "",
+        proofType: customer?.proofType || "",
+        proofNumber: customer?.proofNumber || "",
+        paymentMethod: customer?.paymentMethod || "Offline",
+        amountPaid: Number(tour.price.replace(/[₹,]/g, "")),
+      };
+
+      const res = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Booking confirmed! Booking id: " + (data.booking?._id || ""));
+        setBookingTour(null); // close booking modal
+      } else {
+        alert("Booking failed: " + (data.error || JSON.stringify(data)));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Booking error: " + err.message);
+    }
+  };
+
   return (
     <div className="tours-container">
       <style>{`
+        /* Keep all your existing styles intact */
         .tours-container {
           padding: 3rem 1.5rem;
           background-color: #f9fafb;
@@ -123,8 +158,9 @@ function Tours() {
         }
         .tour-card button {
           display: inline-block;
-          margin-top: 1rem;
-          padding: 0.6rem 1.5rem;
+          margin-top: 0.5rem;
+          margin-right: 0.5rem;
+          padding: 0.6rem 1.2rem;
           background-color: #047857;
           color: #fff;
           border: none;
@@ -136,119 +172,78 @@ function Tours() {
         .tour-card button:hover {
           background-color: #065f46;
         }
-        /* Modal Styles */
+
+        /* Modal styles (keep your existing ones) */
         .modal {
           position: fixed;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0,0,0,0.6);
+          background: rgba(0,0,0,0.7);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 1000;
+          animation: fadeIn 0.3s ease-in-out;
         }
         .modal-content {
-          background: white;
+          background: #ffffff;
           padding: 2rem;
           border-radius: 1rem;
-          max-width: 500px;
+          max-width: 600px;
           width: 90%;
-          text-align: center;
+          text-align: left;
+          box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+          animation: slideUp 0.4s ease;
         }
         .modal-content h2 {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #1f2937;
           margin-bottom: 1rem;
+          border-bottom: 2px solid #e5e7eb;
+          padding-bottom: 0.5rem;
         }
         .modal-content p {
-          margin-bottom: 1rem;
+          font-size: 1rem;
           color: #374151;
+          margin-bottom: 0.8rem;
+          line-height: 1.5;
+        }
+        .modal-content p b {
+          color: #047857;
         }
         .close-btn {
           background: #dc2626;
           color: white;
           border: none;
-          padding: 0.5rem 1rem;
+          padding: 0.6rem 1.4rem;
           border-radius: 0.5rem;
           cursor: pointer;
           font-weight: 600;
+          font-size: 0.95rem;
+          margin-top: 1rem;
+          transition: background 0.3s ease;
         }
         .close-btn:hover {
           background: #b91c1c;
         }
-          /* Modal Styles */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);  /* darker overlay */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease-in-out;
-}
+        .modal-input {
+          padding: 0.5rem;
+          border-radius: 0.4rem;
+          border: 1px solid #d1d5db;
+          font-size: 0.95rem;
+        }
 
-.modal-content {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 1rem;
-  max-width: 600px;
-  width: 90%;
-  text-align: left;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-  animation: slideUp 0.4s ease;
-}
-
-.modal-content h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #e5e7eb;
-  padding-bottom: 0.5rem;
-}
-
-.modal-content p {
-  font-size: 1rem;
-  color: #374151;
-  margin-bottom: 0.8rem;
-  line-height: 1.5;
-}
-
-.modal-content p b {
-  color: #047857; /* highlight important labels */
-}
-
-.close-btn {
-  background: #dc2626;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.4rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-top: 1rem;
-  transition: background 0.3s ease;
-}
-
-.close-btn:hover {
-  background: #b91c1c;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes slideUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { transform: translateY(50px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
       `}</style>
 
       <h2>Exciting Tour Packages</h2>
@@ -262,12 +257,13 @@ function Tours() {
               <div className="tour-info">{tour.days} | {tour.price}</div>
               <p>{tour.desc}</p>
               <button onClick={() => setSelectedTour(tour)}>View Details</button>
+              <button onClick={() => setBookingTour(tour)}>Book Now</button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Modal */}
+      {/* View Details Modal */}
       {selectedTour && (
         <div className="modal" onClick={() => setSelectedTour(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -279,6 +275,44 @@ function Tours() {
           </div>
         </div>
       )}
+
+      {/* Booking Form Modal */}
+      {bookingTour && (
+        <div className="modal" onClick={() => setBookingTour(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Book: {bookingTour.title}</h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleBooking(bookingTour, {
+                  name: e.target.name.value,
+                  email: e.target.email.value,
+                  phone: e.target.phone.value,
+                  visitDate: e.target.visitDate.value,
+                  proofType: e.target.proofType.value,
+                  proofNumber: e.target.proofNumber.value,
+                  paymentMethod: e.target.paymentMethod.value,
+                });
+              }}
+              style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginTop: "0.5rem" }}
+            >
+              <input name="name" placeholder="Full Name" required className="modal-input" />
+              <input name="email" type="email" placeholder="Email" required className="modal-input" />
+              <input name="phone" placeholder="Phone Number" required className="modal-input" />
+              <input name="visitDate" type="date" required className="modal-input" />
+              <input name="proofType" placeholder="Proof Type (ID/Passport)" required className="modal-input" />
+              <input name="proofNumber" placeholder="Proof Number" required className="modal-input" />
+              <select name="paymentMethod" required className="modal-input">
+                <option value="Offline">Offline</option>
+                <option value="Online">Online</option>
+              </select>
+              <button type="submit" className="close-btn">Confirm Booking</button>
+            </form>
+            <button className="close-btn" style={{ marginTop: "0.5rem", background: "#dc2626" }} onClick={() => setBookingTour(null)}>Close</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
