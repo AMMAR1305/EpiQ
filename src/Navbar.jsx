@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiMenu, FiX, FiSearch, FiUser } from "react-icons/fi";
 import Logo from "./assets/Logo.png";
 
@@ -8,7 +8,11 @@ function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [hoverMenu, setHoverMenu] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredDistricts, setFilteredDistricts] = useState([]);
+
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -38,9 +42,30 @@ function Navbar() {
     { name: "Vellore", path: "/vellore" },
     { name: "Thanjavur", path: "/thanjavur" },
     { name: "Coimbatore", path: "/coimbatore" },
-    { name: "Thirunelveli", path: "/thirunelveli" },
-    { name: "View All Destinations", path: "/Destinations" },
+    { name: "Tirunelveli", path: "/thirunelveli" },
   ];
+
+  // 🔍 Search filter functionality
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (value.trim() === "") {
+      setFilteredDistricts([]);
+      return;
+    }
+
+    const results = districtsDropdown.filter((district) =>
+      district.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredDistricts(results);
+  };
+
+  const handleDistrictClick = (path) => {
+    setSearchTerm("");
+    setFilteredDistricts([]);
+    navigate(path);
+  };
 
   return (
     <>
@@ -100,25 +125,55 @@ function Navbar() {
             opacity: 0;
             transform: translateY(10px);
             transition: all 0.3s ease;
+            z-index: 2000;
           }
           ul li:hover .dropdown {
             display: flex;
             opacity: 1;
             transform: translateY(0);
           }
+          .dropdown a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #004d40;
+          }
           .dropdown a:hover { background: #f0f0f0; }
+          .search-container {
+            position: relative;
+          }
           .search-bar {
             display: flex;
             align-items: center;
             background: white;
             border-radius: 9999px;
             padding: 0.25rem 0.75rem;
+            position: relative;
+            z-index: 1;
           }
           .search-bar input {
             border: none;
             outline: none;
             padding: 0.5rem;
             border-radius: 9999px;
+          }
+          .suggestions {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            width: 100%;
+            background: white;
+            color: #004d40;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 5;
+            font-size: 0.9rem;
+          }
+          .suggestions div {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+          }
+          .suggestions div:hover {
+            background: #f0f0f0;
           }
           .login-btn {
             background-color: #ffd700;
@@ -144,16 +199,39 @@ function Navbar() {
           }
         `}</style>
 
-        <div className="Logo">
+        {/* 🔥 Logo + Title */}
+        <div
+          className="Logo"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+          }}
+        >
           <img src={Logo} alt="Logo" />
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <h1
+              style={{
+                fontSize: "1.6rem",
+                fontWeight: "700",
+                color: "white",
+                letterSpacing: "1.5px",
+                fontFamily: "'Cinzel', serif",
+              }}
+            >
+              EPICUREVOYAGE
+            </h1>
+          </Link>
         </div>
 
+        {/* 🔗 Desktop Menu */}
         <ul className="hidden md:flex">
           {navLinks.map((link, index) => (
             <li
               key={index}
               onMouseEnter={() => setHoverMenu(link.dropdown)}
               onMouseLeave={() => setHoverMenu(null)}
+              style={{ position: "relative" }}
             >
               <Link
                 to={link.path}
@@ -183,12 +261,30 @@ function Navbar() {
               )}
             </li>
           ))}
-          <li>
+
+          {/* 🔍 Search */}
+          <li className="search-container">
             <div className="search-bar">
-              <input type="text" placeholder="Search..." />
+              <input
+                type="text"
+                placeholder="Search district..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
               <FiSearch />
             </div>
+            {filteredDistricts.length > 0 && (
+              <div className="suggestions">
+                {filteredDistricts.map((district, i) => (
+                  <div key={i} onClick={() => handleDistrictClick(district.path)}>
+                    {district.name}
+                  </div>
+                ))}
+              </div>
+            )}
           </li>
+
+          {/* 🔒 Login Button */}
           <li>
             <button className="login-btn" onClick={() => setShowLogin(true)}>
               <FiUser /> Login
@@ -196,10 +292,12 @@ function Navbar() {
           </li>
         </ul>
 
+        {/* 📱 Mobile Menu Button */}
         <div className="md:hidden" onClick={() => setOpen(!open)}>
           {open ? <FiX size={30} /> : <FiMenu size={30} />}
         </div>
 
+        {/* 📱 Mobile Dropdown */}
         {open && (
           <ul className="mobile-menu absolute top-full left-0 w-full">
             {navLinks.map((link, index) => (
@@ -215,9 +313,26 @@ function Navbar() {
             ))}
             <li>
               <div className="search-bar">
-                <input type="text" placeholder="Search..." />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
                 <FiSearch />
               </div>
+              {filteredDistricts.length > 0 && (
+                <div className="suggestions">
+                  {filteredDistricts.map((district, i) => (
+                    <div
+                      key={i}
+                      onClick={() => handleDistrictClick(district.path)}
+                    >
+                      {district.name}
+                    </div>
+                  ))}
+                </div>
+              )}
             </li>
             <li>
               <button className="login-btn" onClick={() => setShowLogin(true)}>
@@ -228,14 +343,11 @@ function Navbar() {
         )}
       </nav>
 
-      {/* Login / Signup Modal */}
-      {(showLogin || showSignup) && (
+      {/* 🔒 Login Modal */}
+      {showLogin && (
         <div
           className="modal"
-          onClick={() => {
-            setShowLogin(false);
-            setShowSignup(false);
-          }}
+          onClick={() => setShowLogin(false)}
           style={{
             position: "fixed",
             inset: 0,
@@ -260,119 +372,194 @@ function Navbar() {
               fontFamily: "'Poppins', sans-serif",
             }}
           >
-            <style>{`
-              @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(-20px); }
-                to { opacity: 1; transform: translateY(0); }
-              }
-              .modal-title {
-                text-align: center;
-                font-size: 1.6rem;
-                font-weight: 700;
-                color: #004d40;
-                margin-bottom: 1.5rem;
-              }
-              .modal-input {
-                width: 100%;
-                padding: 0.75rem 1rem;
-                margin-bottom: 1rem;
-                border-radius: 8px;
-                border: 1px solid #ccc;
-                font-size: 1rem;
-                transition: all 0.2s ease;
-              }
-              .modal-input:focus {
-                border-color: #00796b;
-                box-shadow: 0 0 0 2px rgba(0,121,107,0.2);
-                outline: none;
-              }
-              .modal-btn {
-                width: 100%;
-                background: linear-gradient(135deg, #004d40, #00796b);
-                color: white;
-                padding: 0.75rem;
-                border: none;
-                border-radius: 9999px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: background 0.3s ease, transform 0.1s ease;
-              }
-              .modal-btn:hover {
-                background: linear-gradient(135deg, #00695c, #009688);
-                transform: scale(1.02);
-              }
-              .modal-footer {
-                text-align: center;
-                margin-top: 1rem;
-                font-size: 0.9rem;
-                color: #555;
-              }
-              .modal-footer a {
-                color: #00796b;
-                text-decoration: none;
-                font-weight: 600;
-              }
-              .modal-footer a:hover {
-                text-decoration: underline;
-              }
-            `}</style>
+            <h2 style={{ textAlign: "center", marginBottom: "1rem", color: "#004d40" }}>
+              Login
+            </h2>
 
-            {showLogin && (
-              <>
-                <h2 className="modal-title">Welcome Back 👋</h2>
-                <input type="text" placeholder="Username or Email" className="modal-input" />
-                <input type="password" placeholder="Password" className="modal-input" />
-                <button className="modal-btn" onClick={() => alert("Login submitted!")}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Login successful!");
+                setShowLogin(false);
+              }}
+            >
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Email</label>
+                <input
+                  type="email"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "0.5rem",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    marginTop: "0.25rem",
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Password</label>
+                <input
+                  type="password"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "0.5rem",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    marginTop: "0.25rem",
+                  }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                style={{
+                  width: "100%",
+                  background: "#004d40",
+                  color: "white",
+                  padding: "0.5rem",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: "pointer",
+                  fontWeight: "600",
+                }}
+              >
+                Login
+              </button>
+
+              <p style={{ textAlign: "center", marginTop: "1rem", fontSize: "0.9rem" }}>
+                Don’t have an account?{" "}
+                <span
+                  style={{ color: "#00796b", cursor: "pointer", fontWeight: "600" }}
+                  onClick={() => {
+                    setShowLogin(false);
+                    setShowSignup(true);
+                  }}
+                >
+                  Sign up
+                </span>
+              </p>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 🆕 Signup Modal */}
+      {showSignup && (
+        <div
+          className="modal"
+          onClick={() => setShowSignup(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2000,
+          }}
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "white",
+              padding: "2rem 2.5rem",
+              borderRadius: "12px",
+              width: "350px",
+              maxWidth: "90%",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
+              animation: "fadeIn 0.3s ease",
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            <h2 style={{ textAlign: "center", marginBottom: "1rem", color: "#004d40" }}>
+              Sign Up
+            </h2>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Signup successful!");
+                setShowSignup(false);
+              }}
+            >
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "0.5rem",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    marginTop: "0.25rem",
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Email</label>
+                <input
+                  type="email"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "0.5rem",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    marginTop: "0.25rem",
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <label>Password</label>
+                <input
+                  type="password"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "0.5rem",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    marginTop: "0.25rem",
+                  }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                style={{
+                  width: "100%",
+                  background: "#004d40",
+                  color: "white",
+                  padding: "0.5rem",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: "pointer",
+                  fontWeight: "600",
+                }}
+              >
+                Sign Up
+              </button>
+
+              <p style={{ textAlign: "center", marginTop: "1rem", fontSize: "0.9rem" }}>
+                Already have an account?{" "}
+                <span
+                  style={{ color: "#00796b", cursor: "pointer", fontWeight: "600" }}
+                  onClick={() => {
+                    setShowSignup(false);
+                    setShowLogin(true);
+                  }}
+                >
                   Login
-                </button>
-                <div className="modal-footer">
-                  <p>
-                    Don’t have an account?{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowLogin(false);
-                        setShowSignup(true);
-                      }}
-                    >
-                      Sign up
-                    </a>
-                  </p>
-                  <p>
-                    <a href="#">Forgot password?</a>
-                  </p>
-                </div>
-              </>
-            )}
-
-            {showSignup && (
-              <>
-                <h2 className="modal-title">Create Account ✨</h2>
-                <input type="text" placeholder="Full Name" className="modal-input" />
-                <input type="email" placeholder="Email" className="modal-input" />
-                <input type="password" placeholder="Password" className="modal-input" />
-                <input type="password" placeholder="Confirm Password" className="modal-input" />
-                <button className="modal-btn" onClick={() => alert("Signup submitted!")}>
-                  Sign Up
-                </button>
-                <div className="modal-footer">
-                  <p>
-                    Already have an account?{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowSignup(false);
-                        setShowLogin(true);
-                      }}
-                    >
-                      Login
-                    </a>
-                  </p>
-                </div>
-              </>
-            )}
+                </span>
+              </p>
+            </form>
           </div>
         </div>
       )}

@@ -16,42 +16,60 @@ function Cuisine() {
       origin: "Chettinad Region", 
       desc: "Famous for its spicy curries, pepper chicken, and aromatic biryanis.", 
       img: chettinad,
-      recipe: "Try Chettinad chicken curry cooked with freshly ground spices. Best enjoyed with steamed rice or parotta."
+      recipe: "Try Chettinad chicken curry cooked with freshly ground spices. Best enjoyed with steamed rice or parotta.",
+      ingredients: "Chicken, black pepper, dry red chili, curry leaves, ginger-garlic, coconut.",
+      rating: "4.8 / 5",
+      location: "Karaikudi, Tamil Nadu"
     },
     { 
       title: "Madurai Jigarthanda", 
       origin: "Madurai", 
       desc: "A cool and creamy drink made with milk, ice cream, and sarsaparilla syrup.", 
       img: jigarthanda,
-      recipe: "Served chilled with thickened milk, nannari syrup, and ice cream on top."
+      recipe: "Served chilled with thickened milk, nannari syrup, and ice cream on top.",
+      ingredients: "Milk, badam pisin, nannari syrup, sugar, vanilla ice cream.",
+      rating: "4.6 / 5",
+      location: "Madurai, Tamil Nadu"
     },
     { 
       title: "Kanchipuram Idli", 
       origin: "Kanchipuram", 
       desc: "A spiced version of idli made with cumin, pepper, and ginger.", 
       img: kanchipuramIdli,
-      recipe: "Made with rice, urad dal, cumin, pepper, and ginger, steamed in banana leaves."
+      recipe: "Made with rice, urad dal, cumin, pepper, and ginger, steamed in banana leaves.",
+      ingredients: "Rice, urad dal, cumin, pepper, ginger, ghee, curry leaves.",
+      rating: "4.7 / 5",
+      location: "Kanchipuram, Tamil Nadu"
     },
     { 
       title: "Dindigul Biryani", 
       origin: "Dindigul", 
       desc: "Unique biryani with seeraga samba rice and a distinct spicy flavor.", 
       img: dindigul,
-      recipe: "Cooked with seeraga samba rice, flavorful spices, and tender mutton or chicken."
+      recipe: "Cooked with seeraga samba rice, flavorful spices, and tender mutton or chicken.",
+      ingredients: "Seeraga samba rice, mutton, yogurt, cloves, cinnamon, mint.",
+      rating: "4.9 / 5",
+      location: "Dindigul, Tamil Nadu"
     },
     { 
       title: "Parotta & Salna", 
       origin: "Tamil Nadu Street Food", 
       desc: "Layered parottas served with a spicy curry, popular in roadside stalls.", 
       img: parotta,
-      recipe: "Flaky parottas made by folding and frying dough, served with spicy onion-tomato gravy."
+      recipe: "Flaky parottas made by folding and frying dough, served with spicy onion-tomato gravy.",
+      ingredients: "Maida flour, oil, onion, tomato, garlic, chili powder.",
+      rating: "4.5 / 5",
+      location: "Madurai & Chennai Streets"
     },
     { 
       title: "Filter Coffee", 
       origin: "Tamil Nadu", 
       desc: "Authentic South Indian filter coffee with rich aroma and frothy top.", 
       img: coffee,
-      recipe: "Made with freshly brewed filter coffee decoction and hot frothy milk."
+      recipe: "Made with freshly brewed filter coffee decoction and hot frothy milk.",
+      ingredients: "Coffee decoction, boiled milk, sugar.",
+      rating: "4.8 / 5",
+      location: "Across Tamil Nadu"
     },
   ];
 
@@ -61,7 +79,7 @@ function Cuisine() {
         .cuisine-container {
           padding: 3rem 1.5rem;
           background-color: #fff7ed;
-          font-family: 'Arial', sans-serif;
+          font-family: 'Poppins', sans-serif;
         }
         .cuisine-container h2 {
           text-align: center;
@@ -93,11 +111,12 @@ function Cuisine() {
         }
         .cuisine-card img {
           width: 100%;
-          height: 180px;
+          height: 200px;
           object-fit: cover;
         }
         .cuisine-card .card-content {
           padding: 1.5rem;
+          text-align: center;
         }
         .cuisine-card h3 {
           font-size: 1.5rem;
@@ -132,72 +151,82 @@ function Cuisine() {
           background-color: #92400e;
         }
 
-        /* Modal Styles */
         /* Modal Overlay */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);  /* dim background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
 
-/* Modal Box */
-.modal {
-  background: #fff;
-  padding: 25px 35px;
-  border-radius: 12px;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  text-align: center;
-  animation: fadeIn 0.3s ease-in-out;
-}
+        /* Modal Box */
+        .modal {
+          background: #fff;
+          padding: 2rem;
+          border-radius: 1rem;
+          max-width: 600px;
+          width: 90%;
+          text-align: center;
+          box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+          animation: fadeIn 0.3s ease-in-out;
+        }
 
-/* Title */
-.modal h3 {
-  margin-top: 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: #333;
-}
+        .modal img {
+          width: 100%;
+          border-radius: 0.75rem;
+          height: 250px;
+          object-fit: cover;
+          margin-bottom: 1.2rem;
+        }
 
-/* Text */
-.modal p {
-  font-size: 16px;
-  color: #555;
-  margin: 10px 0;
-  line-height: 1.5;
-}
+        .modal h3 {
+          font-size: 1.8rem;
+          color: #b45309;
+          margin-bottom: 0.75rem;
+        }
 
-/* Close Button */
-.modal button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background: #ff5722;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
+        .modal-content {
+          text-align: left;
+          margin-top: 1rem;
+        }
 
-.modal button:hover {
-  background: #e64a19;
-}
+        .modal-content p {
+          font-size: 1rem;
+          color: #444;
+          margin: 0.4rem 0;
+          line-height: 1.6;
+        }
 
-/* Fade Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+        .modal-content strong {
+          color: #9a3412;
+        }
 
+        .modal button {
+          margin-top: 1.5rem;
+          padding: 0.7rem 1.5rem;
+          background: #b45309;
+          color: #fff;
+          border: none;
+          border-radius: 0.5rem;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background 0.3s;
+        }
+
+        .modal button:hover {
+          background: #92400e;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-15px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
       `}</style>
 
       <h2>Famous Tamil Nadu Cuisine</h2>
@@ -220,9 +249,15 @@ function Cuisine() {
       {selectedFood && (
         <div className="modal-overlay" onClick={() => setSelectedFood(null)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <img src={selectedFood.img} alt={selectedFood.title} />
             <h3>{selectedFood.title}</h3>
-            <p><strong>Origin:</strong> {selectedFood.origin}</p>
-            <p>{selectedFood.recipe}</p>
+            <div className="modal-content">
+              <p><strong>Origin:</strong> {selectedFood.origin}</p>
+              <p><strong>Famous Location:</strong> {selectedFood.location}</p>
+              <p><strong>Ingredients:</strong> {selectedFood.ingredients}</p>
+              <p><strong>Recipe:</strong> {selectedFood.recipe}</p>
+              <p><strong>Rating:</strong> ⭐ {selectedFood.rating}</p>
+            </div>
             <button onClick={() => setSelectedFood(null)}>Close</button>
           </div>
         </div>
