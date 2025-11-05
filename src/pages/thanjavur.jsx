@@ -1,157 +1,361 @@
-import React from "react";
-import thanjavur from "../assets/thanjavur.jpg";
+import React, { useState, useEffect } from "react";
+import {
+  FaLandmark,
+  FaUtensils,
+  FaHotel,
+  FaPlane,
+  FaTrain,
+  FaBusAlt,
+  FaMusic,
+  FaPagelines,
+} from "react-icons/fa";
+import thirunelveli from "../assets/thirunelveli.jpg";
 
-const ThanjavurPage = () => {
-  const district = "Thanjavur";
+const DistrictPage = () => {
+  const district = "Thirunelveli";
+  const [expanded, setExpanded] = useState(false);
+  const [visibleSections, setVisibleSections] = useState({});
 
-  const about = `Thanjavur, also known as Tanjore, is famous for its rich cultural heritage, grand temples, and classical arts. It is the home of the UNESCO World Heritage Site, Brihadeeswarar Temple.`;
+  const about = `Thirunelveli, one of the oldest cities in Tamil Nadu, is famous for its temples, waterfalls, and cultural heritage. Known for its natural beauty, traditional sweets, and the majestic Courtallam waterfalls, the city attracts pilgrims and nature enthusiasts alike.`;
 
   const attractions = [
-    { name: "Brihadeeswarar Temple", desc: "A UNESCO World Heritage Site and architectural marvel of the Chola dynasty." },
-    { name: "Thanjavur Palace", desc: "Historical palace with museums showcasing art and history." },
-    { name: "Art Gallery", desc: "Exhibits traditional Tanjore paintings and sculptures." },
+    {
+      name: "Courtallam Waterfalls",
+      desc: "Popularly known as the ‘Spa of South India’, Courtallam is a famous waterfall surrounded by lush greenery.",
+      icon: <FaPagelines />,
+    },
+    {
+      name: "Nellaiappar Temple",
+      desc: "An ancient temple dedicated to Lord Shiva, showcasing beautiful Dravidian architecture and intricate carvings.",
+      icon: <FaLandmark />,
+    },
+    {
+      name: "Manimuthar Dam",
+      desc: "A serene dam offering scenic views and a peaceful picnic spot surrounded by hills.",
+      icon: <FaPagelines />,
+    },
+    {
+      name: "Papanasam",
+      desc: "A sacred place by the Western Ghats known for the Agasthiyar Falls and Papanasam Dam.",
+      icon: <FaLandmark />,
+    },
   ];
 
   const cuisines = [
-    { name: "Thanjavur Sweets", desc: "Famous sweets including laddu and mysore pak." },
-    { name: "South Indian Meals", desc: "Traditional meals with rice, sambar, rasam, and curry." },
+    {
+      name: "Thirunelveli Halwa",
+      desc: "The city’s signature sweet dish, made from wheat, ghee, and sugar, famous across India.",
+      icon: <FaUtensils />,
+    },
+    {
+      name: "Idli & Chutney",
+      desc: "Traditional South Indian breakfast delicacy served with coconut chutney and sambar.",
+      icon: <FaUtensils />,
+    },
+    {
+      name: "Banana Leaf Meals",
+      desc: "Authentic Tamil meals served on banana leaves, offering a complete traditional experience.",
+      icon: <FaUtensils />,
+    },
   ];
 
   const resorts = [
-    { name: "Heritage Palace Hotel", desc: "Stay reflecting local heritage with modern amenities." },
-    { name: "Comfort Stays", desc: "Convenient accommodations in the city center." },
+    {
+      name: "Five Falls Resort",
+      desc: "Located near Courtallam, this resort offers a relaxing stay amidst nature and waterfalls.",
+      icon: <FaHotel />,
+    },
+    {
+      name: "Manimuthar Eco Stay",
+      desc: "A calm retreat surrounded by forests and hills for nature lovers.",
+      icon: <FaHotel />,
+    },
+    {
+      name: "Saaral Resort",
+      desc: "Luxury stay near Courtallam with spa facilities and great local cuisine.",
+      icon: <FaHotel />,
+    },
   ];
 
   const festivals = [
-    { name: "Natyanjali Dance Festival", month: "February", desc: "Classical dance festival at Brihadeeswarar Temple." },
+    {
+      name: "Car Festival at Nellaiappar Temple",
+      month: "June / July",
+      desc: "A grand temple festival featuring processions, music, and traditional rituals.",
+      icon: <FaMusic />,
+    },
+    {
+      name: "Pongal",
+      month: "January",
+      desc: "Harvest festival celebrated with enthusiasm, traditional dishes, and local dances.",
+      icon: <FaMusic />,
+    },
   ];
 
   const reach = [
-    { mode: "By Air", desc: "Nearest airport is Tiruchirappalli Airport, 60 km away." },
-    { mode: "By Train", desc: "Thanjavur Railway Station connects major cities in Tamil Nadu." },
-    { mode: "By Road", desc: "Accessible via NH67 and NH136 with buses and taxis." },
+    {
+      mode: "By Air",
+      desc: "The nearest airport is Tuticorin Airport (40 km), with regular flights to Chennai and other cities.",
+      icon: <FaPlane />,
+    },
+    {
+      mode: "By Train",
+      desc: "Thirunelveli Junction is a major railhead connecting Chennai, Madurai, and Trivandrum.",
+      icon: <FaTrain />,
+    },
+    {
+      mode: "By Road",
+      desc: "Well-connected by NH44 with frequent bus services from Madurai, Nagercoil, and Tiruchendur.",
+      icon: <FaBusAlt />,
+    },
   ];
+
+  // Scroll animation logic
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("section");
+      const newVisibleSections = {};
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          newVisibleSections[sec.id] = true;
+        }
+      });
+      setVisibleSections(newVisibleSections);
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="district-page">
-        <style>{`
+      <style>{`
         .district-page {
-          font-family: 'Segoe UI', Arial, sans-serif;
-          background-color: #fafafa;
+          font-family: 'Poppins', sans-serif;
+          background: #fafafa;
           color: #222;
-          line-height: 1.8;
+          overflow-x: hidden;
         }
 
-        /* Hero Section */
         .district-hero {
           position: relative;
-          width: 100%;
-          height: 90vh;
-          overflow: hidden;
+          height: 85vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          color: white;
         }
 
         .district-hero img {
+          position: absolute;
           width: 100%;
           height: 100%;
           object-fit: cover;
-          filter: brightness(65%);
+          z-index: 1;
+          filter: brightness(60%);
+        }
+
+        .overlay {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.8));
+          z-index: 2;
         }
 
         .hero-text {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-align: center;
-          color: #fff;
+          position: relative;
+          z-index: 3;
+          animation: fadeInUp 1.5s ease;
         }
 
         .hero-text h1 {
           font-size: 4rem;
-          font-weight: 700;
-          text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+          margin-bottom: 0.5rem;
         }
 
         .hero-text p {
-          font-size: 1.5rem;
-          margin-top: 0.5rem;
-          text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+          font-size: 1.3rem;
+          opacity: 0.9;
         }
 
-        /* Content Sections */
+        @keyframes fadeInUp {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
         section {
           max-width: 1100px;
-          margin: 4rem auto;
+          margin: 3rem auto;
           padding: 0 1rem;
+          opacity: 0;
+          transform: translateY(50px);
+          transition: all 0.7s ease;
+        }
+
+        section.visible {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         section h2 {
-          font-size: 2.4rem;
           text-align: center;
           color: #b45309;
-          margin-bottom: 1.5rem;
+          font-size: 2.2rem;
+          margin-bottom: 2rem;
           border-bottom: 3px solid #f59e0b;
           display: inline-block;
-          padding-bottom: 0.5rem;
+          padding-bottom: 0.3rem;
         }
 
-        section p, li {
-          font-size: 1.15rem;
-          color: #333;
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
         }
 
-        ul {
-          list-style: none;
-          padding-left: 0;
-          margin-left: 0;
-      }   
-
-
-        /* Cards replaced by clean lists */
-        .info-list {
+        .card {
           background: #fff;
-          padding: 1.5rem 2rem;
           border-radius: 1rem;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-          margin-bottom: 2rem;
+          padding: 1.5rem;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .info-list h3 {
-          font-size: 1.4rem;
+        .card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
           color: #9a3412;
           margin-bottom: 0.5rem;
         }
 
-        .info-list small {
+        .card-icon {
+          font-size: 2rem;
+          color: #f59e0b;
+          margin-bottom: 0.5rem;
+        }
+
+        .expand-btn {
           display: block;
-          color: #6b7280;
-          margin-bottom: 0.3rem;
+          margin: 1.5rem auto;
+          background: #b45309;
+          color: white;
+          border: none;
+          padding: 0.6rem 1.2rem;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        .expand-btn:hover {
+          background: #92400e;
         }
 
         @media (max-width: 768px) {
-          .hero-text h1 {
-            font-size: 2.8rem;
-          }
-          .hero-text p {
-            font-size: 1.2rem;
-          }
-          section {
-            margin: 2.5rem auto;
-          }
+          .hero-text h1 { font-size: 2.5rem; }
+          .hero-text p { font-size: 1rem; }
+          section h2 { font-size: 1.8rem; }
         }
       `}</style>
+
+      {/* Hero Section */}
       <div className="district-hero">
-        <img src={thanjavur} alt="Thanjavur City" />
-        <div className="hero-text"><h1>{district}</h1><p>The Cultural Capital of Tamil Nadu</p></div>
+        <img src={thirunelveli} alt="Thirunelveli" />
+        <div className="overlay"></div>
+        <div className="hero-text">
+          <h1>{district}</h1>
+          <p>The Land of Waterfalls and Temples</p>
+        </div>
       </div>
-      <section><h2>About {district}</h2><p style={{ textAlign: "justify" }}>{about}</p></section>
-      <section><h2>Top Attractions</h2>{attractions.map((item, i) => <div className="info-list" key={i}><h3>{item.name}</h3><p>{item.desc}</p></div>)}</section>
-      <section><h2>Famous Cuisines</h2>{cuisines.map((item, i) => <div className="info-list" key={i}><h3>{item.name}</h3><p>{item.desc}</p></div>)}</section>
-      <section><h2>Resorts & Accommodation</h2>{resorts.map((item, i) => <div className="info-list" key={i}><h3>{item.name}</h3><p>{item.desc}</p></div>)}</section>
-      <section><h2>Festivals</h2>{festivals.map((fest, i) => <div className="info-list" key={i}><h3>{fest.name}</h3><small>{fest.month}</small><p>{fest.desc}</p></div>)}</section>
-      <section><h2>How to Reach {district}</h2>{reach.map((item, i) => <div className="info-list" key={i}><h3>{item.mode}</h3><p>{item.desc}</p></div>)}</section>
+
+      {/* About Section */}
+      <section id="about" className={visibleSections["about"] ? "visible" : ""}>
+        <h2>About {district}</h2>
+        <p style={{ textAlign: "justify", fontSize: "1.1rem" }}>{about}</p>
+      </section>
+
+      {/* Top Attractions */}
+      <section id="attractions" className={visibleSections["attractions"] ? "visible" : ""}>
+        <h2>Top Attractions</h2>
+        <div className="card-grid">
+          {attractions.map((a, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{a.icon}</div>
+              <h3>{a.name}</h3>
+              <p>{a.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Cuisines */}
+      <section id="cuisines" className={visibleSections["cuisines"] ? "visible" : ""}>
+        <h2>Famous Cuisines</h2>
+        <div className="card-grid">
+          {cuisines.map((c, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{c.icon}</div>
+              <h3>{c.name}</h3>
+              <p>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Resorts */}
+      <section id="resorts" className={visibleSections["resorts"] ? "visible" : ""}>
+        <h2>Resorts & Accommodation</h2>
+        <div className="card-grid">
+          {resorts.map((r, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{r.icon}</div>
+              <h3>{r.name}</h3>
+              <p>{r.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Festivals */}
+      <section id="festivals" className={visibleSections["festivals"] ? "visible" : ""}>
+        <h2>Festivals</h2>
+        <div className="card-grid">
+          {festivals.map((f, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{f.icon}</div>
+              <h3>{f.name}</h3>
+              <small>{f.month}</small>
+              <p>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* How to Reach */}
+      <section id="reach" className={visibleSections["reach"] ? "visible" : ""}>
+        <h2>How to Reach {district}</h2>
+        {expanded && (
+          <div className="card-grid">
+            {reach.map((r, i) => (
+              <div className="card" key={i}>
+                <div className="card-icon">{r.icon}</div>
+                <h3>{r.mode}</h3>
+                <p>{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        <button className="expand-btn" onClick={() => setExpanded(!expanded)}>
+          {expanded ? "Show Less" : "Show More"}
+        </button>
+      </section>
     </div>
   );
 };
 
-export default ThanjavurPage;
+export default DistrictPage;

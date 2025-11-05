@@ -1,107 +1,225 @@
-function Contact() {
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { FaFacebook, FaInstagram, FaTwitter, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+
+export default function Contact() {
+  const [result, setResult] = useState("");
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult("Sending...");
+    const formData = new FormData(event.target);
+
+    // Replace with your Web3Forms access key
+    formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("✅ Form Submitted Successfully!");
+      event.target.reset();
+      setTimeout(() => setResult(""), 4000);
+    } else {
+      console.log("Error", data);
+      setResult("❌ Something went wrong. Please try again!");
+    }
+  };
+
   return (
     <div className="contact-wrapper">
       <style>{`
         .contact-wrapper {
           padding: 4rem 2rem;
-          background: #f9fafb;
-          font-family: 'Arial', sans-serif;
+          background: linear-gradient(to bottom right, #f8fafc, #eef2ff);
+          font-family: 'Poppins', sans-serif;
           min-height: 100vh;
         }
 
         .contact-container {
-          max-width: 700px;
+          max-width: 800px;
           margin: 0 auto;
           padding: 3rem;
           background: #ffffff;
-          border-radius: 1rem;
-          box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+          border-radius: 1.25rem;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         .contact-container h2 {
-          font-size: 2.75rem;
+          font-size: 2.8rem;
           font-weight: 800;
           text-align: center;
-          margin-bottom: 2rem;
-          color: #007BFF;
+          margin-bottom: 1.5rem;
+          color: #004aad;
         }
 
-        .contact-container label {
+        .contact-container p {
+          text-align: center;
+          color: #555;
+          margin-bottom: 2.5rem;
+          font-size: 1.1rem;
+        }
+
+        form label {
           display: block;
           font-weight: 600;
           margin-bottom: 0.5rem;
           color: #333;
         }
 
-        .contact-container input,
-        .contact-container textarea {
+        form input,
+        form textarea {
           width: 100%;
           border: 1px solid #ddd;
           border-radius: 0.75rem;
-          padding: 0.75rem;
+          padding: 0.9rem;
           margin-bottom: 1.5rem;
-          font-size: 1.1rem;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          font-size: 1rem;
+          transition: all 0.3s ease;
         }
 
-        .contact-container input:focus,
-        .contact-container textarea:focus {
-          border-color: #007BFF;
+        form input:focus,
+        form textarea:focus {
+          border-color: #004aad;
           outline: none;
-          box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+          box-shadow: 0 0 8px rgba(0, 74, 173, 0.2);
         }
 
-        .contact-container button {
+        form button {
           display: block;
           width: 100%;
           padding: 1rem;
-          background-color: #007BFF;
+          background-color: #004aad;
           color: #fff;
-          font-weight: bold;
-          font-size: 1.2rem;
+          font-weight: 600;
+          font-size: 1.1rem;
           border: none;
-          border-radius: 0.75rem;
+          border-radius: 0.8rem;
           cursor: pointer;
-          transition: background-color 0.3s ease, transform 0.3s ease;
+          transition: all 0.3s ease;
         }
 
-        .contact-container button:hover {
-          background-color: #0056b3;
-          transform: translateY(-2px);
+        form button:hover {
+          background-color: #003b8e;
+          transform: translateY(-3px);
         }
 
-        .contact-container .info {
-          margin-top: 2rem;
+        .success-message {
+          text-align: center;
+          color: #16a34a;
+          font-weight: 600;
+          margin-top: -0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .info {
           text-align: center;
           font-size: 1rem;
-          color: #555;
+          margin-top: 2rem;
+          line-height: 1.8;
+        }
+
+        .info strong {
+          color: #004aad;
+        }
+
+        .social-icons {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: center;
+          gap: 1.5rem;
+        }
+
+        .social-icons a {
+          font-size: 1.6rem;
+          color: #004aad;
+          transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+          color: #007bff;
+          transform: scale(1.2);
+        }
+
+        .map-section {
+          margin-top: 3rem;
+          border-radius: 1rem;
+          overflow: hidden;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        iframe {
+          width: 100%;
+          height: 350px;
+          border: 0;
+        }
+
+        @media (max-width: 600px) {
+          .contact-container {
+            padding: 2rem;
+          }
+
+          .contact-container h2 {
+            font-size: 2.2rem;
+          }
+
+          .contact-container p {
+            font-size: 1rem;
+          }
         }
       `}</style>
 
-      <div className="contact-container">
+      <motion.div
+        className="contact-container"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
         <h2>Contact Us</h2>
+        <p>We’d love to hear from you! Send us a message below and we’ll respond soon.</p>
 
-        <form onSubmit={(e) => { e.preventDefault(); alert('Message Sent!'); }}>
+        {/* Contact Form (Web3Forms Integration) */}
+        <form onSubmit={onSubmit}>
           <label htmlFor="name">Name</label>
-          <input type="text" id="name" placeholder="Enter your name" required />
+          <input type="text" name="name" placeholder="Enter your name" required />
 
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" placeholder="Enter your email" required />
+          <input type="email" name="email" placeholder="Enter your email" required />
 
           <label htmlFor="message">Message</label>
-          <textarea id="message" rows="5" placeholder="Enter your message" required></textarea>
+          <textarea name="message" rows="5" placeholder="Type your message..." required></textarea>
 
           <button type="submit">Send Message</button>
         </form>
 
+        {result && <div className="success-message">{result}</div>}
+
+        {/* Contact Info */}
         <div className="info">
-          Or reach us directly at: <br />
-          <strong>Email:</strong> support@tamilnadutourism.com <br />
-          <strong>Phone:</strong> +91 98765 43210
+          <FaEnvelope /> <strong> support@epicurevoyagetourism.com</strong> <br />
+          <FaPhoneAlt /> <strong> +91 98765 43210</strong>
+
+          <div className="social-icons">
+            <a href="#"><FaFacebook /></a>
+            <a href="#"><FaInstagram /></a>
+            <a href="#"><FaTwitter /></a>
+          </div>
         </div>
-      </div>
+
+        {/* Google Map Embed */}
+        <div className="map-section">
+          <iframe
+            title="Tamil Nadu Tourism Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1995706.2827578033!2d77.0!3d10.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c5818f4536c3%3A0xe94f33c71b5abf04!2sTamil%20Nadu!5e0!3m2!1sen!2sin!4v1686655821992!5m2!1sen!2sin"
+            allowFullScreen=""
+            loading="lazy"
+          ></iframe>
+        </div>
+      </motion.div>
     </div>
   );
 }
-
-export default Contact;

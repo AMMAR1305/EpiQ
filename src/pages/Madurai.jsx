@@ -1,219 +1,300 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import {
+  FaLandmark,
+  FaUtensils,
+  FaHotel,
+  FaPlane,
+  FaTrain,
+  FaBusAlt,
+  FaMusic,
+  FaPagelines,
+} from "react-icons/fa";
 import madurai from "../assets/madurai.jpg";
 
 const DistrictPage = () => {
   const district = "Madurai";
+  const [expanded, setExpanded] = useState(false);
+  const [visibleSections, setVisibleSections] = useState({});
 
   const about = `Madurai, known as the Temple City, is one of the oldest cities in India. Famous for the historic Meenakshi Amman Temple, its rich culture, classical Tamil music, temple rituals, and vibrant festivals make it a unique spiritual and cultural destination.`;
 
   const attractions = [
-    { name: "Meenakshi Amman Temple", desc: "Historic temple with stunning Dravidian architecture and spiritual significance." },
-    { name: "Thirumalai Nayakkar Palace", desc: "A 17th-century royal palace showcasing Indo-Saracenic architecture." },
-    { name: "Alagar Hills", desc: "Scenic hills known for their temple and natural beauty." },
-    { name: "Gandhi Memorial Museum", desc: "Dedicated to Mahatma Gandhi, showcasing India's freedom struggle." },
+    { name: "Meenakshi Amman Temple", desc: "Historic temple with stunning Dravidian architecture and spiritual significance.", icon: <FaLandmark /> },
+    { name: "Thirumalai Nayakkar Palace", desc: "A 17th-century royal palace showcasing Indo-Saracenic architecture.", icon: <FaPagelines /> },
+    { name: "Alagar Hills", desc: "Scenic hills known for their temple and natural beauty.", icon: <FaPagelines /> },
+    { name: "Gandhi Memorial Museum", desc: "Dedicated to Mahatma Gandhi, showcasing India's freedom struggle.", icon: <FaLandmark /> },
   ];
 
   const cuisines = [
-    { name: "Jigarthanda", desc: "A signature Madurai drink made with milk, almond gum, and sarsaparilla syrup." },
-    { name: "Idiyappam", desc: "Delicate steamed rice noodles served with coconut milk or spicy curry." },
-    { name: "Paruthi Paal", desc: "A traditional cotton seed milk drink with rich nutritional value." },
+    { name: "Jigarthanda", desc: "A signature Madurai drink made with milk, almond gum, and sarsaparilla syrup.", icon: <FaUtensils /> },
+    { name: "Idiyappam", desc: "Delicate steamed rice noodles served with coconut milk or spicy curry.", icon: <FaUtensils /> },
+    { name: "Paruthi Paal", desc: "A traditional cotton seed milk drink with rich nutritional value.", icon: <FaUtensils /> },
   ];
 
   const resorts = [
-    { name: "Heritage Madurai", desc: "Luxury stay blending modern comfort with heritage architecture." },
-    { name: "The Gateway Hotel", desc: "Upscale accommodation offering excellent hospitality and local cuisine." },
-    { name: "Boutique Stays", desc: "Charming small-scale accommodations reflecting local culture." },
+    { name: "Heritage Madurai", desc: "Luxury stay blending modern comfort with heritage architecture.", icon: <FaHotel /> },
+    { name: "The Gateway Hotel", desc: "Upscale accommodation offering excellent hospitality and local cuisine.", icon: <FaHotel /> },
+    { name: "Boutique Stays", desc: "Charming small-scale accommodations reflecting local culture.", icon: <FaHotel /> },
   ];
 
   const festivals = [
-    { name: "Chithirai Thiruvizha", month: "April / May", desc: "A grand festival celebrating the divine marriage of Goddess Meenakshi and Lord Sundareswarar." },
-    { name: "Panguni Uthiram", month: "March / April", desc: "Temple festival marked by colorful processions and rituals." },
+    { name: "Chithirai Thiruvizha", month: "April / May", desc: "A grand festival celebrating the divine marriage of Goddess Meenakshi and Lord Sundareswarar.", icon: <FaMusic /> },
+    { name: "Panguni Uthiram", month: "March / April", desc: "Temple festival marked by colorful processions and rituals.", icon: <FaMusic /> },
   ];
 
   const reach = [
-    { mode: "By Air", desc: "Madurai International Airport offers direct flights to major Indian cities and select international destinations." },
-    { mode: "By Train", desc: "Madurai Junction is a major rail hub well-connected with Chennai, Trichy, Coimbatore, and other key cities." },
-    { mode: "By Road", desc: "Well-linked through NH38 and NH44, with frequent bus and taxi services from neighboring cities." },
+    { mode: "By Air", desc: "Madurai International Airport offers direct flights to major Indian cities and select international destinations.", icon: <FaPlane /> },
+    { mode: "By Train", desc: "Madurai Junction is a major rail hub well-connected with Chennai, Trichy, Coimbatore, and other key cities.", icon: <FaTrain /> },
+    { mode: "By Road", desc: "Well-linked through NH38 and NH44, with frequent bus and taxi services from neighboring cities.", icon: <FaBusAlt /> },
   ];
+
+  // Scroll reveal animation
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("section");
+      const newVisibleSections = {};
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          newVisibleSections[sec.id] = true;
+        }
+      });
+      setVisibleSections(newVisibleSections);
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="district-page">
       <style>{`
         .district-page {
-          font-family: 'Segoe UI', Arial, sans-serif;
-          background-color: #fafafa;
+          font-family: 'Poppins', sans-serif;
+          background: #fafafa;
           color: #222;
-          line-height: 1.8;
+          overflow-x: hidden;
         }
 
         /* Hero Section */
         .district-hero {
           position: relative;
-          width: 100%;
-          height: 90vh;
-          overflow: hidden;
+          height: 85vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          text-align: center;
         }
 
         .district-hero img {
+          position: absolute;
           width: 100%;
           height: 100%;
           object-fit: cover;
-          filter: brightness(65%);
+          z-index: 1;
+          filter: brightness(60%);
+        }
+
+        .overlay {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+          z-index: 2;
         }
 
         .hero-text {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-align: center;
-          color: #fff;
+          position: relative;
+          z-index: 3;
+          animation: fadeInUp 1.5s ease;
         }
 
         .hero-text h1 {
           font-size: 4rem;
-          font-weight: 700;
-          text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+          margin-bottom: 0.5rem;
         }
 
         .hero-text p {
-          font-size: 1.5rem;
-          margin-top: 0.5rem;
-          text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+          font-size: 1.3rem;
+          opacity: 0.9;
         }
 
-        /* Content Sections */
+        @keyframes fadeInUp {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Styling */
         section {
           max-width: 1100px;
-          margin: 4rem auto;
+          margin: 3rem auto;
           padding: 0 1rem;
+          opacity: 0;
+          transform: translateY(50px);
+          transition: all 0.7s ease;
+        }
+
+        section.visible {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         section h2 {
-          font-size: 2.4rem;
           text-align: center;
           color: #b45309;
-          margin-bottom: 1.5rem;
+          font-size: 2.2rem;
+          margin-bottom: 2rem;
           border-bottom: 3px solid #f59e0b;
           display: inline-block;
-          padding-bottom: 0.5rem;
+          padding-bottom: 0.3rem;
         }
 
-        section p, li {
-          font-size: 1.15rem;
-          color: #333;
+        /* Card Grid */
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
         }
 
-        ul {
-          list-style: none;
-          padding-left: 0;
-          margin-left: 0;
-      }   
-
-
-        /* Cards replaced by clean lists */
-        .info-list {
+        .card {
           background: #fff;
-          padding: 1.5rem 2rem;
           border-radius: 1rem;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-          margin-bottom: 2rem;
+          padding: 1.5rem;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .info-list h3 {
-          font-size: 1.4rem;
+        .card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
           color: #9a3412;
           margin-bottom: 0.5rem;
         }
 
-        .info-list small {
+        .card-icon {
+          font-size: 2rem;
+          color: #f59e0b;
+          margin-bottom: 0.5rem;
+        }
+
+        /* Expand Button */
+        .expand-btn {
           display: block;
-          color: #6b7280;
-          margin-bottom: 0.3rem;
+          margin: 1.5rem auto;
+          background: #b45309;
+          color: white;
+          border: none;
+          padding: 0.6rem 1.2rem;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        .expand-btn:hover {
+          background: #92400e;
         }
 
         @media (max-width: 768px) {
-          .hero-text h1 {
-            font-size: 2.8rem;
-          }
-          .hero-text p {
-            font-size: 1.2rem;
-          }
-          section {
-            margin: 2.5rem auto;
-          }
+          .hero-text h1 { font-size: 2.5rem; }
+          .hero-text p { font-size: 1rem; }
+          section h2 { font-size: 1.8rem; }
         }
       `}</style>
 
       {/* Hero Section */}
       <div className="district-hero">
-        <img src={madurai} alt="Madurai City" />
+        <img src={madurai} alt="Madurai" />
+        <div className="overlay"></div>
         <div className="hero-text">
           <h1>{district}</h1>
           <p>The Temple City of Tamil Nadu</p>
         </div>
       </div>
 
-      {/* About */}
-      <section>
+      {/* About Section */}
+      <section id="about" className={visibleSections["about"] ? "visible" : ""}>
         <h2>About {district}</h2>
-        <p style={{ textAlign: "justify" }}>{about}</p>
+        <p style={{ textAlign: "justify", fontSize: "1.1rem" }}>{about}</p>
       </section>
 
-      {/* Attractions */}
-      <section>
+      {/* Top Attractions */}
+      <section id="attractions" className={visibleSections["attractions"] ? "visible" : ""}>
         <h2>Top Attractions</h2>
-        {attractions.map((item, i) => (
-          <div className="info-list" key={i}>
-            <h3>{item.name}</h3>
-            <p>{item.desc}</p>
-          </div>
-        ))}
+        <div className="card-grid">
+          {attractions.map((a, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{a.icon}</div>
+              <h3>{a.name}</h3>
+              <p>{a.desc}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Cuisines */}
-      <section>
+      <section id="cuisines" className={visibleSections["cuisines"] ? "visible" : ""}>
         <h2>Famous Cuisines</h2>
-        {cuisines.map((item, i) => (
-          <div className="info-list" key={i}>
-            <h3>{item.name}</h3>
-            <p>{item.desc}</p>
-          </div>
-        ))}
+        <div className="card-grid">
+          {cuisines.map((c, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{c.icon}</div>
+              <h3>{c.name}</h3>
+              <p>{c.desc}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Resorts */}
-      <section>
+      <section id="resorts" className={visibleSections["resorts"] ? "visible" : ""}>
         <h2>Resorts & Accommodation</h2>
-        {resorts.map((item, i) => (
-          <div className="info-list" key={i}>
-            <h3>{item.name}</h3>
-            <p>{item.desc}</p>
-          </div>
-        ))}
+        <div className="card-grid">
+          {resorts.map((r, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{r.icon}</div>
+              <h3>{r.name}</h3>
+              <p>{r.desc}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Festivals */}
-      <section>
+      <section id="festivals" className={visibleSections["festivals"] ? "visible" : ""}>
         <h2>Festivals</h2>
-        {festivals.map((fest, i) => (
-          <div className="info-list" key={i}>
-            <h3>{fest.name}</h3>
-            <small>{fest.month}</small>
-            <p>{fest.desc}</p>
-          </div>
-        ))}
+        <div className="card-grid">
+          {festivals.map((f, i) => (
+            <div className="card" key={i}>
+              <div className="card-icon">{f.icon}</div>
+              <h3>{f.name}</h3>
+              <small>{f.month}</small>
+              <p>{f.desc}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* How to Reach */}
-      <section>
+      <section id="reach" className={visibleSections["reach"] ? "visible" : ""}>
         <h2>How to Reach {district}</h2>
-        {reach.map((item, i) => (
-          <div className="info-list" key={i}>
-            <h3>{item.mode}</h3>
-            <p>{item.desc}</p>
+        {expanded && (
+          <div className="card-grid">
+            {reach.map((r, i) => (
+              <div className="card" key={i}>
+                <div className="card-icon">{r.icon}</div>
+                <h3>{r.mode}</h3>
+                <p>{r.desc}</p>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
+        <button className="expand-btn" onClick={() => setExpanded(!expanded)}>
+          {expanded ? "Show Less" : "Show More"}
+        </button>
       </section>
     </div>
   );
