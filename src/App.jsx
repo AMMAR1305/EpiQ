@@ -27,7 +27,7 @@ import Coimbatore from "./pages/coimbatore";
 import Thirunelveli from "./pages/thirunelveli";
 function App() {
   return (
-    <Router>
+    <Router basename="/">
       <style>{`
         /* Global body styles */
         body, html {
